@@ -50,6 +50,7 @@ const TabsLayout = () => {
           //borderTopWidth: 1,
           borderTopColor: "#232533",
           height: 84,      
+          //marginBottom: 0,
         },
         tabBarStyle: {
           //position: "absolute",
@@ -99,7 +100,7 @@ const TabsLayout = () => {
         />
 
         <Tabs.Screen
-          name="add"          
+          name="add"                    
           options={{
             title: "Add",            
             headerShown: false,
@@ -124,8 +125,11 @@ const TabsLayout = () => {
                 }
               },[focused]);
 
-              return (<TouchableOpacity onPress={onPress}                 
-                activeOpacity={0.5} className="flex justify-center items-center"
+              return (
+              <View className="flex items-center justify-center bg-blue-200 h-[84px]">
+              <TouchableOpacity onPress={onPress}                 
+                activeOpacity={0.5} 
+                //className="flex justify-center items-center"
               >                
                 <Animatable.View className="h-[50px] w-[50px] rounded-full bg-red-700 items-center justify-center flex"
                   ref={viewRef}
@@ -138,7 +142,9 @@ const TabsLayout = () => {
                     />                  
                   <Text className="text-white">Add</Text>
                 </Animatable.View>
-              </TouchableOpacity>)
+              </TouchableOpacity>
+              </View>
+              )
             },
             // tabBarIcon: ({ color, focused }) => (
             //   <View className={"w-[56px] h-[56px] rounded-full bg-[#F02A4B] mb-[82px]"}>
