@@ -1,9 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import { Image, Text, View } from "react-native";
-import React from 'react'
+import { Image, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useRef } from 'react'
 import {Tabs, Redirect} from "expo-router";
 import { icons } from "../../constants";
 import { rgbaColor } from "react-native-reanimated/lib/typescript/reanimated2/Colors";
+import * as Animatable from 'react-native-animatable';
+import { animate1, animate2 } from "./animate";
 
 const TabIcon = ({ icon, color, name, focused } : {
   icon: any,
@@ -29,6 +31,9 @@ const TabIcon = ({ icon, color, name, focused } : {
   );
 };
 
+// animation: https://www.youtube.com/watch?v=gbTFbPQnK9I
+
+
 
 const TabsLayout = () => {
   return (    
@@ -50,7 +55,7 @@ const TabsLayout = () => {
           //position: "absolute",
           // left: 20,
           // bottom: 20,
-           borderRadius: 20,
+          // borderRadius: 20,
           // bottom: 10,
           // left:10,
           // right:10,
@@ -81,7 +86,7 @@ const TabsLayout = () => {
           name="bookmark"
           options={{
             title: "Bookmark",
-            headerShown: false,
+            headerShown: false,            
             tabBarIcon: ({ color, focused }) => (
               <TabIcon
                 icon={icons.bookmark}
@@ -94,20 +99,57 @@ const TabsLayout = () => {
         />
 
         <Tabs.Screen
-          name="add"
+          name="add"          
           options={{
-            title: "Add",
+            title: "Add",            
             headerShown: false,
-            tabBarIcon: ({ color, focused }) => (
-              <View className={"w-[56px] h-[56px] rounded-full bg-[#F02A4B] mb-[82px]"}>
-              <TabIcon
-                icon={icons.plus}
-                color={color}
-                name="Add"
-                focused={focused}
-              />
-              </View>
-            ),
+            tabBarButton: (props) => {
+              const {
+                onPress,
+                // extra data,
+                accessibilityState,
+              } = props;
+
+              const focused = accessibilityState?.selected;
+
+              const viewRef = useRef<Animatable.View>(null);
+              const circleRef = useRef(null);
+              const textRef = useRef(null);
+
+              useEffect(() => {
+                if(focused) {
+                  viewRef?.current?.animate(animate1);
+                }else {
+                  viewRef?.current?.animate(animate2);
+                }
+              },[focused]);
+
+              return (<TouchableOpacity onPress={onPress}                 
+                activeOpacity={0.5} className="flex justify-center items-center"
+              >                
+                <Animatable.View className="h-[50px] w-[50px] rounded-full bg-red-700 items-center justify-center flex"
+                  ref={viewRef}
+                  duration={500}                  
+                >                  
+                  <Image
+                      source={icons.plus}
+                      resizeMode="contain"                      
+                      className="w-6 h-6"
+                    />                  
+                  <Text className="text-white">Add</Text>
+                </Animatable.View>
+              </TouchableOpacity>)
+            },
+            // tabBarIcon: ({ color, focused }) => (
+            //   <View className={"w-[56px] h-[56px] rounded-full bg-[#F02A4B] mb-[82px]"}>
+            //   <TabIcon
+            //     icon={icons.plus}
+            //     color={color}
+            //     name="Add"
+            //     focused={focused}
+            //   />
+            //   </View>
+            // ),
           }}
         />                
 
