@@ -7,12 +7,15 @@ import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { View, Text, StyleSheet } from 'react-native';
+import GlobalProvider from '@/context/GlobalProvider';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+
+  // font theme set in tailwind config
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     "Poppins-Black": require("../assets/fonts/Poppins-Black.ttf"),
@@ -43,12 +46,14 @@ export default function RootLayout() {
 
 
   return (
+    <GlobalProvider>
     <Stack>
       <Stack.Screen name="index" options={{ headerShown: false }} />            
       <Stack.Screen name="(auth)" options={{ headerShown: false }} />  
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />  
       <Stack.Screen name="search/[query]" options={{ headerShown: false }} />  
     </Stack>
+    </GlobalProvider>
   )
 
   return (

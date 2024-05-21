@@ -133,7 +133,7 @@ const TabsLayout = () => {
               >                
                 <Animatable.View className="h-[50px] w-[50px] rounded-full bg-red-700 items-center justify-center flex"
                   ref={viewRef}
-                  duration={500}                  
+                  duration={500}                      
                 >                  
                   <Image
                       source={icons.plus}

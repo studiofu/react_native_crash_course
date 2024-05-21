@@ -11,6 +11,7 @@ import {images } from '../constants';
 import CustomButton from '../components/CustomButton';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useGlobalContext } from '@/context/GlobalProvider';
 
 // https://www.youtube.com/watch?v=ZBCUegTZF7M
 
@@ -27,14 +28,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const IndexPage = () => {
 
-  return (
-      <View className="flex-1 items-center justify-center">
-      <Text className="text-2xl font-bold">Aora!</Text>
-      <Link href="/home" >
-        Go to Home
-      </Link>
-    </View>
-  )
+  const { loading, isLogged } = useGlobalContext();
+
+  if (!loading && isLogged) return <Redirect href="/home" />;  
+
+  // return (
+  //     <View className="flex-1 items-center justify-center">
+  //     <Text className="text-2xl font-bold">Aora!</Text>
+  //     <Link href="/home" >
+  //       Go to Home
+  //     </Link>
+  //   </View>
+  // )
   
 
   // return (
@@ -49,10 +54,12 @@ const IndexPage = () => {
 
   return (
     <SafeAreaView className='bg-primary h-full'>
-      <ScrollView contentContainerStyle={{
-        height: '100%'
+      <ScrollView className='flex grow-0'
+        contentContainerStyle={{
+        height: '100%',
+        //backgroundColor: '#FF0000'
       }}>
-
+        
         <View className='w-full justify-center items-center h-full px-4'>
             <Image source={images.logo} className='w-[130px] h-[84px]' resizeMode='contain'/>
             <Image source={images.cards} className='max-w-[380px] w-full h-[300px]' resizeMode='contain'/>
