@@ -238,7 +238,7 @@ export async function getUserPosts(userId: string) {
 }
 
 // Get video posts that matches search query
-export async function searchPosts(query: string) {
+export async function searchPosts(query: string ) {
   try {
     const posts = await databases.listDocuments(
       appwriteConfig.databaseId,

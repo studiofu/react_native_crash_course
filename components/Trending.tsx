@@ -91,15 +91,19 @@ const Trending = ({ posts } :
   return (
     <FlatList
       data={posts}
-      horizontal
-      keyExtractor={(item) => item.$id}
-      renderItem={({ item }) => (
-        <TrendingItem activeItem={activeItem} item={item} />
-      )}
-      onViewableItemsChanged={viewableItemsChanged}
+      horizontal // Render items horizontally
+      
+      keyExtractor={(item) => item.$id} // it is used to generate unique key for list items
+      renderItem={({ item }) => ( 
+        <TrendingItem activeItem={activeItem} item={item} key={item.$id}/>
+      )}      
+
+      onViewableItemsChanged={viewableItemsChanged} // Called when the viewability of rows changes, as defined by the viewabilityConfig prop
+      
       viewabilityConfig={{
         itemVisiblePercentThreshold: 70,
-      }}
+      }} // Determines the criteria for determining whether an item is considered viewable in the list
+
       contentOffset={{ x: 170, y: 0 }}
     />
   );

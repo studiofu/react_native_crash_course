@@ -1,12 +1,65 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View, Text, SafeAreaView, FlatList } from 'react-native'
+import React, { useEffect } from 'react'
+import { useLocalSearchParams } from 'expo-router';
+import { searchPosts } from '@/lib/appwrite';
+import useAppwrite from '@/lib/useAppwrite';
+import VideoCard from '@/components/VideoCard';
+import { Models } from 'react-native-appwrite'
+import SearchInput from '@/components/SearchInput';
+import EmptyState from '@/components/EmptyState';
 
 const Search = () => {
+
+  let { query } = useLocalSearchParams();
+  // if(query?.length) {
+  //   query = query[0];
+  // }
+  
+  const { data: posts, refetch } = useAppwrite(() => searchPosts(query as string));
+
+  useEffect(() => {
+    refetch();
+  }, [query]);
+  
   return (
-    <View>
-      <Text>Search</Text>
-    </View>
-  )
+    <SafeAreaView className="bg-primary h-full">
+      <FlatList
+        data={posts as Models.Document[]}
+        keyExtractor={(item) => item.$id}
+        renderItem={({ item }) => (
+          <VideoCard
+            title={item.title}
+            thumbnail={item.thumbnail}
+            video={item.video}
+            creator={item.creator.username}
+            avatar={item.creator.avatar}
+          />
+        )}
+        ListHeaderComponent={() => (
+          <>
+            <View className="flex my-6 px-4">
+              <Text className="font-pmedium text-gray-100 text-sm">
+                Search Results
+              </Text>
+              <Text className="text-2xl font-psemibold text-white mt-1">
+                {query}
+              </Text>
+
+              <View className="mt-6 mb-8">
+                <SearchInput initialQuery={query as string}  />
+              </View>
+            </View>
+          </>
+        )}
+        ListEmptyComponent={() => (
+          <EmptyState
+            title="No Videos Found"
+            subtitle="No videos found for this search query"
+          />
+        )}
+      />
+    </SafeAreaView>
+  );
 }
 
 export default Search

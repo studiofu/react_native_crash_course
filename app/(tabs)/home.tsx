@@ -7,6 +7,7 @@ import EmptyState from '@/components/EmptyState'
 import useAppwrite from '@/lib/useAppwrite'
 import { getAllPosts, getLatestPosts } from '@/lib/appwrite'
 import { Models } from 'react-native-appwrite'
+import VideoCard from '@/components/VideoCard'
 
 const Home = () => {
 
@@ -26,20 +27,24 @@ const Home = () => {
     >
 
       <FlatList 
-        
+
         data={posts as Models.Document[]} // data is the source of information for the list
         
         keyExtractor={(item, index) => item.$id} // it is used to generate unique key for list items
 
         // renderItem is a function that takes an item from data and returns a react element
         renderItem={({item}) => (
-          <View>
-            <Text className='h-20 text-white'>Home</Text>
-          </View>          
+          <VideoCard
+            title={item.title}
+            thumbnail={item.thumbnail}
+            video={item.video}
+            creator={item.creator.username}
+            avatar={item.creator.avatar}
+          />        
         )}
 
         ListHeaderComponent={() => (
-          <View className="flex my-6 px-4 space-y-6 pt-5">
+          <View className="flex my-6 px-4 space-y-6 pt-5" >
             <View className="flex justify-between items-start flex-row mb-6">
               <View>
                 <Text className="font-pmedium text-sm text-gray-100">
@@ -66,7 +71,7 @@ const Home = () => {
                 Latest Videos
               </Text>
 
-            <Trending posts={[{id: 0}, {id:1}] ?? []} /> 
+              <Trending posts={latestPosts ?? []} />
             </View>
           </View>
         )}
