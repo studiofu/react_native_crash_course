@@ -30,6 +30,7 @@ const IndexPage = () => {
 
   const { loading, isLogged } = useGlobalContext();
 
+  // Redirect is expo router's way of redirecting to another page
   if (!loading && isLogged) return <Redirect href="/home" />;  
 
   // return (
@@ -52,7 +53,7 @@ const IndexPage = () => {
   // )
 
 
-  return (
+  return (    
     <SafeAreaView className='bg-primary h-full'>
       <ScrollView className='flex grow-0'
         contentContainerStyle={{
@@ -88,7 +89,13 @@ const IndexPage = () => {
             title="Continue with Email"
             handlePress={() => router.push("/sign-in")}
             containerStyles="w-full mt-7"
-          />          
+          />
+
+          <CustomButton
+            title="測試"
+            handlePress={() => router.push("/profile")}
+            containerStyles="w-full mt-7"
+          />
 
         </View>
 

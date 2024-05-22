@@ -40,6 +40,7 @@ const SignIn = () => {
       router.replace("/home");
     } catch (error: any) {
       Alert.alert("Error", error.message);
+      console.log(error);
     } finally {
       setSubmitting(false);
     }    

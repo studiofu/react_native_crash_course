@@ -33,7 +33,7 @@ const GlobalProvider = ({ children } :
   const [user, setUser] = useState<Models.Document | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  useEffect(() => {    
     getCurrentUser()
       .then((res) => {
         if (res) {
@@ -47,8 +47,8 @@ const GlobalProvider = ({ children } :
           setUser(null);
         }
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((error) => {        
+        console.log('global provider',error);
       })
       .finally(() => {
         setLoading(false);
